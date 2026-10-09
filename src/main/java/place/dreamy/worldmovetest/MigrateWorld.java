@@ -1,5 +1,6 @@
 package place.dreamy.worldmovetest;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.logging.log4j.Logger;
@@ -32,7 +33,14 @@ public class MigrateWorld implements CommandExecutor {
 	private CompletableFuture<Void> moveWorld(ResourceKey oldWorld, ResourceKey newWorld) {
 		WorldManager manager = plugin.getServer().worldManager();
 
-		return manager.moveWorld(oldWorld, newWorld).thenAccept((moved) -> {
+		return manager.moveWorld(oldWorld, newWorld).handle((moved, e) -> {
+			if (e != null) {
+				logger.error("exception moving world {}", e.toString());
+			}
+			if (moved == null) {
+				return false;
+			} else { return moved; }
+		}).thenAccept((moved) -> {
 			if (!moved) {
 				logger.warn("Move failed! Tried to move {} to {}", oldWorld, newWorld);
 				return;

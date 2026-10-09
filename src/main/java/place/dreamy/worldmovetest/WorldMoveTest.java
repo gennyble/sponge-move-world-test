@@ -1,5 +1,7 @@
 package place.dreamy.worldmovetest;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Server;
@@ -56,7 +58,14 @@ public class WorldMoveTest {
 			.executor((CommandContext ctx) -> {
 				ResourceKey worldKey = ctx.requireOne(keyParameter);
 
-				server.worldManager().loadWorld(worldKey).thenAccept((loaded) -> {
+				server.worldManager().loadWorld(worldKey).handle((worldOpt, e) -> {
+					if (e != null) {
+						logger.error("exception loading world {}", e.toString());
+					}
+					if (worldOpt != null) {
+						return worldOpt;
+					} else { return Optional.empty(); }
+				}).thenAccept((loaded) -> {
 					if (loaded.isPresent()) {
 						ctx.sendMessage(Component.text("World load success!"));
 					} else {

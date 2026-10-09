@@ -28,7 +28,14 @@ public class CreateOldWorld implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandContext ctx) throws CommandException {
 		ctx.sendMessage(Component.text("Attempting to create world " + WorldMoveTest.OLD_WORLD_KEY));
-		createWorld().thenAccept((worldOpt) -> {
+		createWorld().handle((worldOpt, e) -> {
+			if (e != null) {
+				this.plugin.getLogger().error("exception creating world {}", e.toString());
+			}
+			if (worldOpt != null) {
+				return worldOpt;
+			} else { return Optional.empty(); }
+		}).thenAccept((worldOpt) -> {
 			if (worldOpt.isEmpty()) {
 				ctx.sendMessage(Component.text("Failed to create world " + WorldMoveTest.OLD_WORLD_KEY));
 			} else {
