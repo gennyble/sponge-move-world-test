@@ -3,24 +3,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Convention is that this is your website (or email address) with the parts in
-  reverse order and the name tacked on the back, All lowercase -->
-  <groupId>place.dreamy.spongemvnex</groupId>
-  <!-- Name of the resulting pacakge -->
-  <artifactId>SpongeMvnEx</artifactId>
-  <!-- What kind of packaging to use. A jar, in this case, which is the default anyway -->
+  <groupId>place.dreamy.worldmovetest</groupId>
+  <artifactId>WorldMoveTest</artifactId>
   <packaging>jar</packaging>
-  <!-- Version -->
   <version>1.0.0</version>
 
-  <!-- Name of the plugin -->
   <name>${project.artifactId}</name>
-  <!-- A short description of what its meant to do -->
-  <description>Guide and Template for Sponge plugin developement with maven</description>
-  <!-- URL. Could link to a project page or the code repo -->
+  <description>World Move Test</description>
   <url>https://dreamy.place</url>
 
-  <!-- Who wrote the code? -->
   <developers>
     <developer>
       <name>Genevieve Raine</name>
@@ -29,31 +20,22 @@
   </developers>
 
   <properties>
-    <!-- These two values goes into the plugin.yml located
-    in src/resources -->
     <author>Genevieve Raine</author>
-    <pluginId>spongemvnex</pluginId>
-    <mainClass>${project.groupId}.SpongeMvnEx</mainClass>
-    <spongeapi.version>17.0.0</spongeapi.version>
+    <pluginId>worldmovetest</pluginId>
+    <mainClass>${project.groupId}.WorldMoveTest</mainClass>
+    <spongeapi.version>21.0.0-SNAPSHOT</spongeapi.version>
 
-    <!--Lets Maven know which Java versions we're expecting. This allows it to,
-    I think?, tell the java compiler how to form our classes. In this case, we're
-    targeting Java 21, which is what I am running my server with -->
     <maven.compiler.release>21</maven.compiler.release>
   </properties>
 
-  <!-- Where should Maven look for dependecies? -->
   <repositories>
-    <!-- Sponge Maven repository -->
     <repository>
       <id>sponge-repo</id>
       <url>https://repo.spongepowered.org/repository/maven-public/</url>
     </repository>
   </repositories>
 
-  <!-- What are the dependecies? -->
   <dependencies>
-    <!--Sponge API 17.0.0 -->
     <dependency>
       <groupId>org.spongepowered</groupId>
       <artifactId>spongeapi</artifactId>
@@ -63,25 +45,15 @@
   </dependencies>
 
 
-  <!-- A plugin isn't a regular Java program, there is no main.java, so
-  it requries special build directions -->
   <build>
-    <!-- Where do we find the source code? -->
     <sourceDirectory>src/main/java</sourceDirectory>
-    <!-- What should Maven do by default? In this case, cleanup from the last
-    compilation and then do it again! -->
     <defaultGoal>clean package</defaultGoal>
 
-    <!-- Extra stuff to shove in the jar file -->
     <resources>
       <!-- Handles the plugin.yml as a special case -->
       <resource>
-        <!-- Where are the resources?-->
         <directory>src/main/resources</directory>
-        <!-- This tells maven to fill in the ${varaibles} in our plugin.yml
-        with the stuff from this here pom.xml -->
         <filtering>true</filtering>
-        <!-- Include plugin.yml! -->
         <includes>
           <include>META-INF/sponge_plugins.json</include>
         </includes>
@@ -90,9 +62,7 @@
       <!-- Everything else -->
       <resource>
         <directory>src/main/resources</directory>
-        <!-- Don't replace varaibles for other files -->
         <filtering>false</filtering>
-        <!-- Don't do plugin.yml again, we did it above -->
         <excludes>
           <exclude>META-INF/sponge_plugins.json</exclude>
         </excludes>
